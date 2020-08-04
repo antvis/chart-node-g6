@@ -1,6 +1,6 @@
 {
   "name": "@antv/chart-node-g6",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The Chart Toolkit of G6 Graph Node",
   "keywords": [
     "antv",
