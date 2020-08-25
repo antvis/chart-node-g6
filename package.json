@@ -34,7 +34,7 @@
     "build:umd": "webpack --config webpack.config.js --mode production",
     "clean": "rimraf es esm lib dist"
   },
-  "main": "src/index.ts",
+  "main": "lib/index.js",
   "module": "es/index.js",
   "browser": "dist/g6ChartPlugin.min.js",
   "dependencies": {
