@@ -7,7 +7,9 @@ import {
   registerGeometryLabel,
   registerGeometryLabelLayout,
   registerAnimation,
-  registerComponentController } from '@antv/g2/lib/core';
+  registerComponentController,
+  registerAction,
+  registerInteraction } from '@antv/g2/lib/core';
 import { antvDark } from '@antv/g2/lib/theme/style-sheet/dark';
 import { createThemeByStylesheet } from '@antv/g2/lib/util/theme';
 registerTheme('dark', createThemeByStylesheet(antvDark));
@@ -109,10 +111,37 @@ registerAnimation('path-in', pathIn);
 // 注册内置的 Component, 目前只支持 Axis 和 Legend 两个组件
 import Axis from '@antv/g2/lib/chart/controller/axis';
 import Legend from '@antv/g2/lib/chart/controller/legend';
+import Tooltip from '@antv/g2/lib/chart/controller/tooltip';
 
 // register build-in components
 registerComponentController('axis', Axis);
 registerComponentController('legend', Legend);
+registerComponentController('tooltip', Tooltip);
+
+import TooltipAction from '@antv/g2/lib/interaction/action/component/tooltip';
+import ElmentActive from '@antv/g2/lib/interaction/action/element/active';
+
+registerAction('tooltip', TooltipAction);
+registerAction('element-active', ElmentActive);
+
+
+// 注册 tooltip 的 interaction
+registerInteraction('tooltip', {
+  start: [
+    { trigger: 'element:mousemove', action: 'tooltip:show', throttle: { wait: 50, leading: true, trailing: false } },
+    { trigger: 'element:touchmove', action: 'tooltip:show', throttle: { wait: 50, leading: true, trailing: false } },
+  ],
+  end: [
+    { trigger: 'element:mouseleave', action: 'tooltip:hide' },
+    { trigger: 'element:leave', action: 'tooltip:hide' },
+    { trigger: 'element:touchend', action: 'tooltip:hide' },
+  ],
+});
+
+registerInteraction('element-active', {
+  start: [{ trigger: 'element:mouseenter', action: 'element-active:active' }],
+  end: [{ trigger: 'element:mouseleave', action: 'element-active:reset' }],
+});
 
 // 因为 typescript 部分版本不支持 export * as 语法。
 import * as Types from '@antv/g2/lib/interface';

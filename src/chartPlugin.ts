@@ -3,8 +3,50 @@ import { IGroup } from '@antv/g-base';
 import { ViewPadding, ViewAppendPadding, Options, LooseObject } from '@antv/g2/lib/interface';
 import { GROUP_Z_INDEX } from '@antv/g2/lib/constant'
 
+const getChartRegion = (
+  params: {
+    group: IGroup,
+    width: number,
+    height: number,
+    x: number,
+    y: number
+  }) => {
+  const {
+    group,
+    height,
+    width,
+    x,
+    y
+  } = params;
+
+  const canvas = group.get('canvas');
+  const canvasWidth = canvas.get('width');
+  const canvasHeight = canvas.get('height');
+  const region = {
+    start: {
+      x: 0,
+      y: 0
+    },
+    end: {
+      x: 0,
+      y: 0
+    }
+  }
+  region.start.x = x / canvasWidth;
+  region.start.y = y / canvasHeight;
+  region.end.x = (x + width) / canvasWidth;
+  region.end.y = (y + height) / canvasHeight;
+  return region;
+} 
+
 interface ChartPlugin {
   readonly group: IGroup;
+  /** 图表的宽度和高度 */
+  readonly width: number;
+  readonly height: number;
+  /** 图表的起始 x y 坐标 */
+  readonly x?: number;
+  readonly y?: number;
   /** 设置设备像素比，默认取浏览器的值 `window.devicePixelRatio`。 */
   readonly pixelRatio?: number;
   /**
@@ -24,19 +66,6 @@ interface ChartPlugin {
    * 2. appendPadding: [ 10, 30, 30 ]
    */
   readonly appendPadding?: ViewAppendPadding;
-  /**
-   * 图表绘制范围，针对 canvas 宽度来计算的。
-   */
-  readonly region?: {
-    start: {
-      x: number;
-      y: number;
-    },
-    end: {
-      x: number;
-      y: number;
-    }
-  };
   /**
    * chart 是否可见，默认为 true，设置为 false 则会隐藏。
    */
@@ -63,14 +92,19 @@ export default class G6ChartPlugin extends View {
       limitInPlot,
       theme,
       group,
-      region
+      width,
+      height,
+      x = 0,
+      y = 0
     } = props
 
     const container = group.get('canvas')
 
-    const backgroundGroup = group.addGroup({ zIndex: GROUP_Z_INDEX.BG })
-    const middleGroup = group.addGroup({ zIndex: GROUP_Z_INDEX.MID })
-    const foregroundGroup = group.addGroup({ zIndex: GROUP_Z_INDEX.FORE })
+    const backgroundGroup = group.addGroup({ zIndex: GROUP_Z_INDEX.BG, name: 'plot' })
+    const middleGroup = group.addGroup({ zIndex: GROUP_Z_INDEX.MID, name: 'plot' })
+    const foregroundGroup = group.addGroup({ zIndex: GROUP_Z_INDEX.FORE, name: 'plot' })
+
+    const region = getChartRegion({ group, width, height, x, y })
 
     super({
       parent: null,
