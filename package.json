@@ -1,6 +1,6 @@
 {
   "name": "@antv/chart-node-g6",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "The Chart Toolkit of G6 Graph Node",
   "keywords": [
     "antv",
@@ -38,8 +38,8 @@
   "module": "es/index.js",
   "browser": "dist/g6ChartPlugin.min.js",
   "dependencies": {
-    "@antv/g-base": "^0.4.7",
-    "@antv/g2": "^4.0.14",
+    "@antv/g-base": "^0.5.4",
+    "@antv/g2": "^4.1.3",
     "father": "^2.29.6",
     "rimraf": "^3.0.2",
     "webpack": "^4.44.1"

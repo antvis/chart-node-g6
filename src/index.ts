@@ -11,8 +11,8 @@ import {
   registerAction,
   registerInteraction } from '@antv/g2/lib/core';
 import { antvDark } from '@antv/g2/lib/theme/style-sheet/dark';
-import { createThemeByStylesheet } from '@antv/g2/lib/util/theme';
-registerTheme('dark', createThemeByStylesheet(antvDark));
+import { createThemeByStyleSheet } from '@antv/g2/lib/theme/util/create-by-style-sheet';
+registerTheme('dark', createThemeByStyleSheet(antvDark));
 
 // 注册 G2 内置的 geometry
 import Area from '@antv/g2/lib/geometry/area';
@@ -73,7 +73,7 @@ registerGeometryLabel('pie', PieLabel);
 registerGeometryLabel('polar', PolarLabel);
 
 // 注册 Geometry label 内置的布局函数
-import { distribute } from '@antv/g2/lib/geometry/label/layout/distribute';
+import { distribute } from '@antv/g2/lib/geometry/label/layout/pie/distribute';
 import { limitInCanvas } from '@antv/g2/lib/geometry/label/layout/limit-in-canvas';
 import { limitInShape } from '@antv/g2/lib/geometry/label/layout/limit-in-shape';
 import { fixedOverlap, overlap } from '@antv/g2/lib/geometry/label/layout/overlap';
@@ -118,7 +118,8 @@ registerComponentController('axis', Axis);
 registerComponentController('legend', Legend);
 registerComponentController('tooltip', Tooltip);
 
-import TooltipAction from '@antv/g2/lib/interaction/action/component/tooltip';
+// import TooltipAction from '@antv/g2/lib/interaction/action/component/tooltip';
+import TooltipAction from '@antv/g2/lib/interaction/action/component/tooltip/geometry';
 import ElmentActive from '@antv/g2/lib/interaction/action/element/active';
 
 registerAction('tooltip', TooltipAction);
