@@ -32,14 +32,15 @@
   "scripts": {
     "build": "npm run clean && father build && npm run build:umd",
     "build:umd": "webpack --config webpack.config.js --mode production",
-    "clean": "rimraf es esm lib dist"
+    "clean": "rimraf es esm lib dist",
+    "cdn": "antv-bin upload -n @antv/chart-node-g6"
   },
   "main": "lib/index.js",
   "module": "es/index.js",
   "browser": "dist/g6ChartPlugin.min.js",
   "dependencies": {
     "@antv/g-base": "^0.5.4",
-    "@antv/g2": "^4.1.3",
+    "@antv/g2": "^4.1.7",
     "father": "^2.29.6",
     "rimraf": "^3.0.2",
     "webpack": "^4.44.1"
